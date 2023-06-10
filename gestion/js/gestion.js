@@ -9,7 +9,6 @@ var myHeaders = new Headers();
   let txt_id_tipo_gestion=  document.getElementById("txt_id_tipo_gestion").value;
   let txt_id_resultado=     document.getElementById("txt_id_resultado").value;
   let txt_comentarios=      document.getElementById("txt_comentarios").value;
-
 var raw=JSON.stringify({
   "id_gestion": txt_id_gestion,
   "id_usuario": txt_id_usuario,
@@ -22,7 +21,7 @@ var raw=JSON.stringify({
 var requestOptions ={
   method:'POST',
   headers: myHeaders,
-  body:raw,
+  body: raw,
   redirect: 'follow'
 };
 fetch("http://159.223.103.211/api/gestion/",requestOptions)
@@ -60,8 +59,45 @@ arr[index] = document.querySelector('#tbl_gestion tbody').innerHTML +=
     <td>${element.comentarios}</td>
     <td>${element.fecha_registro}</td>
     <td>
-      <a href='../gestion/eliminar-gestion.html?id=${element.id_gestion}'><img src='../img/trashcan_24x24.png'> </a> 
+      <a href='../gestion/eliminar-gestion.html?id=${element.id_gestion}'><img src='../img/trashcan_24x24.png'></a> 
       <a href='../gestion/actualizar-gestion.html?id=${element.id_gestion}'><img src='../img/edit_24x24.png'> </a> 
     </td>
   </tr>`
+}
+//Eliminar gestion
+function eliminarGestion(){
+  //obtenemos id a eliminar
+  var id_gestion_eliminar = document.getElementById('hdn_id_gestion').value
+
+  var requestOptions = {
+      method: 'DELETE',
+      redirect: 'follow'
+    };
+    
+    fetch("http://159.223.103.211/api/gestion/"+ id_gestion_eliminar, requestOptions)
+      .then(response => {
+        if (response.ok){
+          alert("Gestion eliminada");
+          window.location.href = "lista-gestion.html";
+        }else{
+          alert("Error al eliminar la gestion, los id en cuestion deben estar en uso por ahora.")
+        }
+      }
+        )
+}
+
+//obtener id de gestion a eliminar
+function obtenerIDGestionEliminar(){
+  //utilizamos search para acceder a las variables recibidas mediante URL
+  var queryString = window.location.search;
+  //Extraemos los parametros
+  var urlParametros = new URLSearchParams(queryString);
+  //Creamos variables con el id de la gestion
+  var id_gestion_url = urlParametros.get('id_gestion');
+  
+  //agregamos ID a campo oculto
+  document.getElementById('hdn_id_gestion').value = id_gestion_url;
+  //Mostramos mensaje de confirmacion
+  var mensaje ="¿Desea eliminar la gestion " + id_gestion_url + " ?";
+  document.getElementById("alt_eliminacion").innerHTML = mensaje;
 }

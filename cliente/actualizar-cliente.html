@@ -21,39 +21,39 @@
             <hr>
             <!-- Formulario de ingreso-->
             <form>
-                <div class="mb-3">
-                    <label for="txt_id_cliente" class="form-label">RUT</label>
-                    <input type="number" class="form-control" id="txt_id_cliente" aria-describedby="txt_id_cliente_ayuda">
-                    <div id="txt_id_cliente_ayuda" class="form-text">Ingrese rut sin digito verificador ni puntos.</div>
-                </div>
+              <div class="mb-3">
+                <label for="txt_id_cliente" class="form-label">RUT</label>
+                <input type="number"  class="form-control" id="txt_id_cliente" aria-describedby="txt_id_cliente_ayuda">
+                <div id="txt_id_cliente_ayuda" class="form-text">Ingrese rut sin digito verificador ni puntos.</div>
+                  </div>
                 <div class="mb-3">
                 <label for="txt_dv" class="form-label">DV</label>
-                <input type="text" class="form-control" id="txt_dv" aria-describedby="txt_dv_ayuda">
-                <div id="txt_dv_ayuda" class ="form-text">Digito verificador.</div>
-                </div>
+                <input type="text"  class="form-control-lg id="txt_dv" aria-describedby="txt_dv_ayuda">
+                <div id="txt_dv_ayuda" class=" form-text">Digito verificador.</div>
+                  </div>
                 <div class="mb-3">
                 <label for="txt_nombres" class="form-label">Nombres</label>
                 <input type="text" class="form-control" id="txt_nombres" aria-describedby="txt_nombres_ayuda">
                 <div id="txt_nombres_ayuda" class="form-text">Ingrese nombre de cliente.</div>
-                </div>
+                  </div>
                 <div class="mb-3">
                 <label for="txt_apellidos" class="form-label">Apellidos</label>
                 <input type="text" class="form-control" id="txt_apellidos" aria-describedby="txt_apellidos_ayuda">
                 <div id="txt_apellidos_ayuda" class="form-text">Apellidos del cliente.</div>
-                </div>
+                  </div>
                 <div class="mb-3">
                 <label for="txt_email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="txt_email" aria-describedby="txt_email_ayuda">
                 <div id="txt_email_ayuda" class=" form-text">Correo electrónico del cliente.</div>
-                </div>
+                  </div>
                 <div class="mb-3">
                 <label for="txt_celular" class="form-label">Celular</label>
                 <input type="number" class="form-control" id="txt_celular" aria-describedby="txt_celular_ayuda">
                 <div id="txt_celular_ayuda" class="form-text">Número de teléfono personal. No incluya +569.</div>
-                </div>
-              
-              
-                <input type="button" class="btn btn-primary" value="Enviar" onclick="crearCliente();" >
+                  </div>
+                
+                <input type="button" class="btn btn-primary" value="Enviar" onclick="actualizarCliente();" >
+                <input type="hidden" id="hdn_id_cliente">
               </form>
         </div>
     </body>

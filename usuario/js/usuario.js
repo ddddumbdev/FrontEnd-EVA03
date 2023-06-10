@@ -73,3 +73,41 @@ function listarUsuarios(){
   
     </tr>`
   }
+
+//Eliminar usuario
+function eliminarUsuario(){
+  //obtenemos id a eliminar
+  var id_usuario_eliminar = document.getElementById('hdn_id_usuario').value
+
+  var requestOptions = {
+      method: 'DELETE',
+      redirect: 'follow'
+    };
+    
+    fetch("http://159.223.103.211/api/usuario/"+id_usuario_eliminar, requestOptions)
+      .then(response => {
+        if (response.ok){
+          alert("Usuario eliminado");
+          window.location.href = "lista-usuario.html";
+        }else{
+          alert("Error al eliminar al usuario")
+        }
+      }
+        )
+}
+//obtener id del usuario eliminar
+function obtenerIDUsuarioEliminar(){
+  //utilizamos search para acceder a las variables recibidas mediante URL
+  var queryString = window.location.search;
+  //Extraemos los parametros
+  var urlParametros = new URLSearchParams(queryString);
+  //Creamos variables con el id del usuario
+  var id_usuario_url = urlParametros.get('id');
+  var nombre_url = urlParametros.get('nombre');
+  var apellido_url = urlParametros.get('apellido');
+  //agregamos ID a campo oculto
+  document.getElementById('hdn_id_usuario').value = id_usuario_url;
+  //Mostramos mensaje de confirmacion
+  var mensaje ="¿Desea eliminar al usuario " + nombre_url + " " + apellido_url +" ?";
+  document.getElementById("alt_eliminacion").innerHTML = mensaje;
+}

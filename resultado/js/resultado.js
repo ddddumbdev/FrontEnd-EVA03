@@ -55,4 +55,40 @@ function completarFila (element, index, arr){
     
   </tr>`
 }
-    
+//Eliminar resultado
+function eliminarResultado(){
+    //obtenemos id a eliminar
+    var id_resultado_eliminar = document.getElementById('hdn_id_resultado').value
+  
+    var requestOptions = {
+        method: 'DELETE',
+        redirect: 'follow'
+      };
+      
+      fetch("http://159.223.103.211/api/resultado/"+id_resultado_eliminar, requestOptions)
+        .then(response => {
+          if (response.ok){
+            alert("Resultado eliminado");
+            window.location.href = "lista-resultado.html";
+          }else{
+            alert("Error al eliminar el resultado")
+          }
+        }
+          )
+  }
+  
+  //obtener id del resultado eliminar
+  function obtenerIDResultadoEliminar(){
+    //utilizamos search para acceder a las variables recibidas mediante URL
+    var queryString = window.location.search;
+    //Extraemos los parametros
+    var urlParametros = new URLSearchParams(queryString);
+    //Creamos variables con el id del resultado
+    var id_resultado_url = urlParametros.get('id');
+    var nombre_url = urlParametros.get('nombre');
+    //agregamos ID a campo oculto
+    document.getElementById('hdn_id_resultado').value = id_resultado_url;
+    //Mostramos mensaje de confirmacion
+    var mensaje ="¿Desea eliminar el resultado " + nombre_url +" ?";
+    document.getElementById("alt_eliminacion").innerHTML = mensaje;
+  }   

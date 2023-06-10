@@ -8,7 +8,7 @@ var requestOptions = {
   redirect: 'follow'
 };
   
-fetch("http://159.223.103.211/api/cliente?_size=60", requestOptions)
+fetch("http://159.223.103.211/api/cliente?_size=100", requestOptions)
   .then(response => response.json())
   .then((json) => { json.forEach(completarFila);
     return json;
@@ -71,9 +71,7 @@ fetch("http://159.223.103.211/api/cliente", requestOptions)
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
 }
-
 //Eliminar cliente
-
 function eliminarCliente(){
   //obtenemos id a eliminar
   var id_cliente_eliminar = document.getElementById('hdn_id_cliente').value
@@ -110,7 +108,42 @@ function obtenerIDClienteEliminar(){
   //Mostramos mensaje de confirmacion
   var mensaje ="¿Desea eliminar al cliente " + nombre_url + " " + apellido_url +" ?";
   document.getElementById("alt_eliminacion").innerHTML = mensaje;
-  }
+}
+
+
+//Actualizar cliente
+function actualizarCliente(){
+  var myHeaders =new Headers();
+myHeaders.append("Content-Type","application/json");
+//obtener datos de formulario
+let id_cliente=document.getElementById("txt_id_cliente").value;
+let nombres=document.getElementById("txt_nombres").value;
+let apellidos=document.getElementById("txt_apellidos").value;
+let email=document.getElementById("txt_celular").value;
+let celular=document.getElementById("txt_celular").value;
+
+var raw=JSON.stringify({
+  "nombres":nombres,
+  "apellidos":apellidos,
+  "email":email,
+  "celular":celular,
+})
+var requestOptions={
+  method:'PATCH',
+  headers: myHeaders,
+  body:raw,
+  redirect:'follow'
+}
+fetch("http://159.223.103.211/api/cliente/"+ id_cliente, requestOptions)
+.then(response=>{
+  if(response.ok){
+    alert("cliente actualizado correctamente");
+    window.location.href="../cliente/lista-cliente.html";
+  }})
+.then(result => console.log(result))
+.catch(error => console.log('error',error));
+}
+
 
 //obtener id del cliente actualizar
 function obtenerIDClienteActualizar(){
@@ -120,12 +153,11 @@ var queryString = window.location.search;
 var urlParametros = new URLSearchParams(queryString);
 //Creamos variables con el id del cliente
 var id_cliente_url = urlParametros.get('id');
-
 document.getElementById('txt_id_cliente').value = id_cliente_url;
 //Invocamos API REST para obtener datos del cliente
 consultarClienteActualizar(id_cliente_url);
-
 }
+
 //Consultamos los datos del cliente a actualizar
 function consultarClienteActualizar(id_cliente_actualizar){
 var requestOptions = {
@@ -144,10 +176,17 @@ fetch("http://159.223.103.211/api/cliente/"+id_cliente_actualizar, requestOption
 
 function completarFormulario(element, index, arr){
 //creamos variables con los datos del cliente
+
+var dv =element.dv;
 var nombres = element.nombres;
 var apellidos = element.apellidos;
+var email = element.email;
+var celular = element.celular;
 
-//Agregamos los valres a los campos del formulario
+//Agregamos los valores a los campos del formulario
+document.getElementById('txt_dv').value = dv;
 document.getElementById('txt_nombres').value = nombres;
 document.getElementById('txt_apellidos').value = apellidos;
+document.getElementById('txt_email').value = email;
+document.getElementById('txt_celular').value = celular;
 }
