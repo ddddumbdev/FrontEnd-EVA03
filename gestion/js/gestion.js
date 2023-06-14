@@ -101,3 +101,54 @@ function obtenerIDGestionEliminar(){
   var mensaje ="¿Desea eliminar la gestion " + id_gestion_url + " ?";
   document.getElementById("alt_eliminacion").innerHTML = mensaje;
 }
+//actualizar gestion
+function actualizarGestion(){
+  var myHeaders=new Headers();
+  myHeaders.append("Content-Type","application/json");
+  //datos formulario
+  let id_gestion=document.getElementById("txt_id_gestion").value;
+  let comentarios=document.getElementById("txt_comentarios").value;
+
+  var raw=JSON.stringify({
+    "ID Gestion":id_gestion,
+    "comentarios":comentarios,
+  })
+  var requestOptions={
+    method:'PATCH',
+    headers: myHeaders,
+    body: raw,
+    redirect:'follow'
+  }
+  fetch("http://159.223.103.211/api/gestion/" + id_gestion, requestOptions)
+  .then(response=>{
+    if(response.ok){
+      alert("gestion actualizada correctamente");
+      window.location.href="../gestion/lista-gestion.html";
+    }})
+  .then(result =>console.log(result))
+  .catch(error=>console.log('error',error));
+}
+function obtenerIDGestionActualizar(){
+  //recibimos variables con search desde el url  y los pasamos a variable
+  var queryString=window.location.search;
+  var urlParametros= new URLSearchParams(queryString);
+  var id_gestion=urlParametros.get('id');
+  document.getElementById('txt_id_gestion'),value=id_gestion_url;
+  consultarGestionActualizar(id_gestion_url);
+}
+//consultamos datos a la API
+function consultarGestionActualizar(id_gestion_actualizar){
+  var requestOptions={
+    method:'GET',
+    redirect:'follow'
+  };
+  fetch("http://159.223.103.211/api/gestion" + id_gestion_actualizar, requestOptions)
+    .then(response => response.json())
+    .then((json) => json.forEach(completarFormulario))
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+function completarFormulario(element){
+  var comentarios=element.comentarios;
+  document.getElementById('txt_comentarios').value=comentarios;
+}

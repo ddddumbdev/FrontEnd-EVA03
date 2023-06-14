@@ -1,13 +1,11 @@
 // window.location.reload();
 // framework para listados datatable//
-
 //funcion para listar clientes
 function listarClientes(){
 var requestOptions = {
   method: 'GET',
   redirect: 'follow'
 };
-  
 fetch("http://159.223.103.211/api/cliente?_size=100", requestOptions)
   .then(response => response.json())
   .then((json) => { json.forEach(completarFila);
@@ -19,7 +17,6 @@ fetch("http://159.223.103.211/api/cliente?_size=100", requestOptions)
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
 }
-
 function completarFila (element, index, arr){
   arr[index] = document.querySelector('#tbl_clientes tbody').innerHTML +=
   `<tr>
@@ -36,7 +33,6 @@ function completarFila (element, index, arr){
 
   </tr>`
 }
-
 //funcion para crear cliente
 function crearCliente(){
 var myHeaders = new Headers();
@@ -48,7 +44,6 @@ var myHeaders = new Headers();
     let txt_apellidos = document.getElementById("txt_apellidos").value;
     let txt_email =     document.getElementById("txt_email").value;
     let txt_celular =   document.getElementById("txt_celular").value;
-
 var raw = JSON.stringify({
   "id_cliente": txt_rut,
   "dv": txt_dv,
@@ -58,14 +53,12 @@ var raw = JSON.stringify({
   "celular": txt_celular,
   "fecha_registro": "2023-06-14"
 });
-
 var requestOptions = {
   method: 'POST',
   headers: myHeaders,
   body: raw,
   redirect: 'follow'
 };
-
 fetch("http://159.223.103.211/api/cliente", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
@@ -75,12 +68,10 @@ fetch("http://159.223.103.211/api/cliente", requestOptions)
 function eliminarCliente(){
   //obtenemos id a eliminar
   var id_cliente_eliminar = document.getElementById('hdn_id_cliente').value
-
   var requestOptions = {
       method: 'DELETE',
       redirect: 'follow'
     };
-    
     fetch("http://159.223.103.211/api/cliente/"+id_cliente_eliminar, requestOptions)
       .then(response => {
         if (response.ok){
@@ -92,7 +83,6 @@ function eliminarCliente(){
       }
         )
 }
-
 //obtener id del cliente eliminar
 function obtenerIDClienteEliminar(){
   //utilizamos search para acceder a las variables recibidas mediante URL
@@ -109,8 +99,6 @@ function obtenerIDClienteEliminar(){
   var mensaje ="¿Desea eliminar al cliente " + nombre_url + " " + apellido_url +" ?";
   document.getElementById("alt_eliminacion").innerHTML = mensaje;
 }
-
-
 //Actualizar cliente
 function actualizarCliente(){
   var myHeaders =new Headers();
@@ -143,8 +131,6 @@ fetch("http://159.223.103.211/api/cliente/"+ id_cliente, requestOptions)
 .then(result => console.log(result))
 .catch(error => console.log('error',error));
 }
-
-
 //obtener id del cliente actualizar
 function obtenerIDClienteActualizar(){
 //utilizamos search para acceder a las variables recibidas mediante URL
@@ -157,14 +143,12 @@ document.getElementById('txt_id_cliente').value = id_cliente_url;
 //Invocamos API REST para obtener datos del cliente
 consultarClienteActualizar(id_cliente_url);
 }
-
 //Consultamos los datos del cliente a actualizar
 function consultarClienteActualizar(id_cliente_actualizar){
 var requestOptions = {
   method: 'GET',
   redirect: 'follow'
 };
-
 fetch("http://159.223.103.211/api/cliente/"+id_cliente_actualizar, requestOptions)
   .then(response => response.json())
   .then((json) => json.forEach(completarFormulario))
