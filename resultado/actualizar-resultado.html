@@ -22,12 +22,17 @@
             <!--form-->
             <form>
                 <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="txt_id_resultado" class="form-label">ID Resultado</label>
+                        <input type="number" class="form-control" id="txt_id_resultado" aria-describedby="txt_id_resultado_ayuda">
+                        <div id="txt_id_resultado_ayuda" class="form-text">Ingrese id resultado</div>
+                    </div>
                     <label for="txt_nombre_resultado" class="form-label">Resultado</label>
-                    <input type="text" class="form-control" id="txt_nombres" aria-describedby="txt_nombre_resultado_ayuda">
+                    <input type="text" class="form-control" id="txt_nombre_resultado" aria-describedby="txt_nombre_resultado_ayuda">
                     <div id="txt_nombre_resultado_ayuda" class="form-text">Ingrese resultado.</div>
                 
                     <input type="button" class="btn btn-primary" value="Enviar" onclick="actualizarResultado();" >
-                    <input type="hidden" id="hdn_id_resultado">
+                    
                 </div>
             </form>
         </div>

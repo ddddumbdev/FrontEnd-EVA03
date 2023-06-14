@@ -111,3 +111,74 @@ function obtenerIDUsuarioEliminar(){
   var mensaje ="¿Desea eliminar al usuario " + nombre_url + " " + apellido_url +" ?";
   document.getElementById("alt_eliminacion").innerHTML = mensaje;
 }
+//actualizar usuario
+function actualizarUsuario(){
+  var myHeaders=new Headers();
+  myHeaders.append("Content-Type","application/json");
+  let id_usuario=document.getElementById("txt_id_usuario").value;
+  let nombres=document.getElementById("txt_nombres").value;
+  let apellidos=document.getElementById("txt_apellidos").value;
+  let email=document.getElementById("txt_email").value;
+  let celular=document.getElementById("txt_celular").value;
+  let username=document.getElementById("txt_username").value;
+  let password=document.getElementById("txt_password").value;
+
+  var raw=JSON.stringify({
+    "id_usuario":id_usuario,
+    "nombres":nombres,
+    "apellidos":apellidos,
+    "email":email,
+    "celular":celular,
+    "username":username,
+    "password":password
+  })
+  var requestOptions={
+    method:'PATCH',
+    headers:myHeaders,
+    body:raw,
+    redirect:'follow'
+  }
+  fetch("http://159.223.103.211/api/usuario/"+id_usuario,requestOptions)
+  .then(response=>{
+    if(response.ok){
+      alert("usuario actualizado correctamente");
+      windows.location.href="../usuario/lista-usuario.html";
+    }})
+  .then(result=>console.log(result))
+  .catch(error=>console.log('error',error));
+}
+//obtener id usuario actualizar
+function obtenerIDUsuarioActualizar(){
+  var queryString = window.location.search;
+  var urlParametros= new URLSearchParams(queryString);
+  var id_usuario_url=urlParametros.get('id');
+  document.getElementById('txt_id_usuario').value=id_usuario;
+  //consultamos datos en api
+  consultarUsuarioActualizar(id_usuario_url);
+}
+function consultarUsuarioActualizar(id_usuario_actualizar){
+  var requestOptions={
+    method:'GET',
+    redirect:'follow'
+  };
+  fetch("http://159.223.103.211/api/usuario/"+id_usuario_actualizar,requestOptions)
+    .then(response=>response.json())
+    .then((json)=>json.forEach(completarFormulario))
+    .then(result=>console.log(result))
+    .catch(error=>console.log('error',error));
+}
+function completarFormulario(element){
+  var nombres=element.nombres;
+  var apellidos=element.apellidos;
+  var email=element.email;
+  var celular=element.celular;
+  var username=element.username;
+  var password=element.password;
+
+  document.getElementById('txt_nombres').value=nombres;
+  document.getElementById('txt_apellidos').value=apellidos;
+  document.getElementById('txt_email').value=email;
+  document.getElementById('txt_celular').value=celular;
+  document.getElementById('txt_username').value=username;
+  document.getElementById('txt_password').value=password;
+}

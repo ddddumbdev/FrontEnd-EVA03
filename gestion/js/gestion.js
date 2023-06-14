@@ -110,7 +110,6 @@ function actualizarGestion(){
   let comentarios=document.getElementById("txt_comentarios").value;
 
   var raw=JSON.stringify({
-    "ID Gestion":id_gestion,
     "comentarios":comentarios,
   })
   var requestOptions={
@@ -132,8 +131,8 @@ function obtenerIDGestionActualizar(){
   //recibimos variables con search desde el url  y los pasamos a variable
   var queryString=window.location.search;
   var urlParametros= new URLSearchParams(queryString);
-  var id_gestion=urlParametros.get('id');
-  document.getElementById('txt_id_gestion'),value=id_gestion_url;
+  var id_gestion_url=urlParametros.get('id');
+  document.getElementById('txt_id_gestion').value=id_gestion_url;
   consultarGestionActualizar(id_gestion_url);
 }
 //consultamos datos a la API
@@ -142,7 +141,7 @@ function consultarGestionActualizar(id_gestion_actualizar){
     method:'GET',
     redirect:'follow'
   };
-  fetch("http://159.223.103.211/api/gestion" + id_gestion_actualizar, requestOptions)
+  fetch("http://159.223.103.211/api/gestion/" + id_gestion_actualizar, requestOptions)
     .then(response => response.json())
     .then((json) => json.forEach(completarFormulario))
     .then(result => console.log(result))

@@ -87,4 +87,54 @@ function obtenerIDTipoGestionEliminar(){
   var mensaje ="¿Desea eliminar la gestion " + id_tipoGestion_url +" ?";
   document.getElementById("alt_eliminacion").innerHTML = mensaje;
 }
+//actualizar tipo gestion
+function actualizarTipoGestion(){
+  var myHeaders=new Headers();
+  myHeaders.append("Content-Type","application/json");
+  let id_tipo_gestion=document.getElementById("txt_id_tipo_gestion").value;
+  let nombre_tipo_gestion=document.getElementById("txt_nombre_tipo_gestion").value;
+  
+  var raw=JSON.stringify({
+    "id tipo gestion": id_tipo_gestion,
+    "nombre":nombre_tipo_gestion
+  })
+  var requestOptions={
+    method:'PATCH',
+    headers:myHeaders,
+    body:raw,
+    redirect:'follow'
+  }
+  fetch("http://159.223.103.211/api/tipo_gestion/" + id_tipo_gestion, requestOptions)
+  .then(response=>{
+    if(response.ok){
+      alert("tipo gestion actualizado correctamente");
+      window.location.href="../tipo-gestion/lista-tipo-gestion.html";
+    }})
+  .then(result=>console.log(result))
+  .catch(error=>console.log('error',error));
+}
+//obtener id tipo gestion actualizar
+function obtenerIDTipoGestionActualizar(){
+  var queryString=window.location.search;
+  var urlParametros=new URLSearchParams(queryString);
+  var id_tipo_gestion_url=urlParametros.get('id');
+  document.getElementById('txt_id_tipo_gestion').value=id_tipo_gestion_url;
+  //consultamos datos en API
+  consultarTipoGestionActualizar(id_tipo_gestion_url);
+}
+function consultarTipoGestionActualizar(id_tipo_gestion_actualizar){
+  var requestOptions={
+    method:'GET',
+    redirect:'follow'
+  };
+  fetch("http://159.223.103.211/api/tipo_gestion/"+id_tipo_gestion_actualizar, requestOptions)
+    .then(response=>response.json())
+    .then((json)=>json.forEach(completarFormulario))
+    .then(result=>console.log(result))
+    .catch(error=>console.log('error',error));
+}
+function completarFormulario(element){
+  var nombre_tipo_gestion=element.nombre_resultado;
+  document.getElementById('txt_nombre_tipo_gestion').value=nombre_tipo_gestion;
+}
     

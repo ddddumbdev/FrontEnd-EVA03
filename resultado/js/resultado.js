@@ -94,15 +94,15 @@ function eliminarResultado(){
   }   
 
   //Actualizar Resultado
-  function actulizarResultado(){
+  function actualizarResultado(){
     var myHeaders=new Headers();
     myHeaders.append("Content-Type","application/json");
 
-    let id_resultado=document.getElementById("txt_id_cliente").value;
+    let id_resultado=document.getElementById("txt_id_resultado").value;
     let nombre_resultado=document.getElementById("txt_nombre_resultado").value
     
     var raw=JSON.stringify({
-      "nombre_Resultado":nombre_resultado
+      "nombre_resultado":nombre_resultado
     })
     var requestOptions={
       method:'PATCH',
@@ -110,7 +110,7 @@ function eliminarResultado(){
       body:raw,
       redirect:'follow'
     }
-    fetch("http://159.223.103.211/api/resultado" + id_resultado, requestOptions)
+    fetch("http://159.223.103.211/api/resultado/" + id_resultado, requestOptions)
     .then(response=>{
       if(response.ok){
         alert("resultado actualizado correctamente");
@@ -122,12 +122,12 @@ function eliminarResultado(){
 
   //obtener id resultado actualizar
   function obtenerIDResultadoActualizar(){
-    var queryString = windows.location.search;
+    var queryString = window.location.search;
     var urlParametros= new URLSearchParams(queryString);
     var id_resultado_url=urlParametros.get('id');
-    document.getElementById('txt_id_resultado').value= id_resultado_url;
+    document.getElementById('txt_id_resultado').value=id_resultado_url;
     //consultamos datos en API con la funcion
-    consultarClienteActualizar(id_cliente_url);
+    consultarResultadoActualizar(id_resultado_url);
   }
   function consultarResultadoActualizar(id_resultado_actualizar){
     var requestOptions={
@@ -135,7 +135,7 @@ function eliminarResultado(){
       redirect:'follow'
     };
     fetch("http://159.223.103.211/api/resultado/"+id_resultado_actualizar, requestOptions)
-      .then(response=>reseponse.json())
+      .then(response=>response.json())
       .then((json)=>json.forEach(completarFormulario))
       .then(result=>console.log(result))
       .catch(error=>console.log('error',error));
